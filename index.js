@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const config = require('./config.js');
 const playerCount = require('./playerCount.js');
 // We dont need this.
 // const inVoice = require('./inVoice.js');
@@ -63,4 +62,4 @@ client.on('message', msg => {
 });
 
 // we need to change this to an environment variable.
-client.login(config.discordToken);
+client.login(process.env.BOT_TOKEN);
