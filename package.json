@@ -1,0 +1,23 @@
+{
+  "name": "dragon",
+  "version": "1.0.0",
+  "description": "Custom discord bot using discord.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ItsThompson/dragon.git"
+  },
+  "author": "ItsThompson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ItsThompson/dragon/issues"
+  },
+  "homepage": "https://github.com/ItsThompson/dragon#readme",
+  "dependencies": {
+    "discord.js": "^12.4.0",
+    "node-fetch": "^2.6.1"
+  }
+}
