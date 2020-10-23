@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config.js');
 const playerCount = require('./playerCount.js');
-// We dont need this currently.
+// We dont need this
 // const inVoice = require('./inVoice.js');
 const register = require('./register.js');
 const streamVc = require('./streamVc.js');
