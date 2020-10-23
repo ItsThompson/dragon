@@ -6,7 +6,7 @@ const playerCount = require('./playerCount.js');
 const register = require('./register.js');
 const streamVc = require('./streamVc.js');
 
-const prefix = 'drag! '
+const prefix = process.env.PREFIX //drag! 
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
