@@ -17,6 +17,8 @@ client.on('message', msg => {
     const args = msg.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
+    console.log(msg.content)
+
     switch(command){
         case 'test':{
             msg.channel.send('_ _ \n _ _ \n _ _ \nOiThompson on twitter\n_ _ \n _ _ \n _ _').catch(console.error);
@@ -38,8 +40,13 @@ client.on('message', msg => {
             break;
         }
         case 'say':{
-            const response = args.join(' ');
-            msg.channel.send(response);
+            if(msg.member.user.id == '218865201821384705'){
+                const response = args.join(' ');
+                msg.channel.send(response);
+            }
+            else{
+                msg.channel.send(':clown: ')
+            }
             break;
         }
         case 'register':{
