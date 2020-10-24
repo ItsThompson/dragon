@@ -1,11 +1,12 @@
 const Discord = require('discord.js');
 const {Client} = require('pg')
 const client = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
-const playerCount = require('./playerCount.js');
+const playerCount = require('./commands/playerCount.js');
 // We dont need this.
-// const inVoice = require('./inVoice.js');
-const register = require('./register.js');
-const streamVc = require('./streamVc.js');
+// const inVoice = require('./commands/inVoice.js');
+const register = require('./commands/register.js');
+const streamVc = require('./commands/streamVc.js');
+const roleFunc = require('./commands/role.js');
 
 const prefix = process.env.PREFIX; //drag! 
 
@@ -74,19 +75,7 @@ client.on('message', msg => {
         case 'role':{
             let title = args[0];
             let role = args[1];
-            let embed = new Discord.MessageEmbed()
-                .setTitle(title)
-                .setDescription(`React for ${role} role`)
-                .setColor('GREEN')
-
-            msg.channel.send(embed).then(function(msg){
-                msg.react('👍');
-                postgresClient.query(`INSERT INTO roles("roleChannel", "roleId", "msgId") VALUES ('${msg.channel.id}','${args[1].substring(3).slice(0, -1)}','${msg.id}')`,)
-                    .then((results) => row = results.rows)
-                    .catch(error => console.error(error));
-            }).catch(function(error){
-                console.error(error);
-            });
+            roleFunc(title, role, msg, postgresClient);
             break;
         }
         default:
@@ -126,7 +115,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
             for(i in row){
                 if(channelId === row[i]["roleChannel"] && messageId === row[i]["msgId"]){
                     if(emoji === '👍'){
-                        console.log(row[i]["msgId"])
+                        // console.log(row[i]["msgId"])
                         await reaction.message.guild.members.cache.get(user.id).roles.add(row[i]["roleId"]);
                     }
                 }
