@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const {Client} = require('pg')
 const client = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
 const playerCount = require('./playerCount.js');
 // We dont need this.
@@ -6,15 +7,23 @@ const playerCount = require('./playerCount.js');
 const register = require('./register.js');
 const streamVc = require('./streamVc.js');
 
-const prefix = process.env.PREFIX //drag! 
+const prefix = process.env.PREFIX; //drag! 
 
-let roleChannel = [];
-let roleId = [];
-let msgId = [];
+const connectionString = process.env.DATABASE_URL;
+
+let row;
+
+const postgresClient = new Client({
+    connectionString: connectionString,
+    ssl: { rejectUnauthorized: false },
+});
+
+postgresClient.connect()
+    .then(() => console.log("Connected Sucessfully"))
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    client.user.setActivity('https://twitter.com/OiThompson', {type: "PLAYING"});
+    client.user.setActivity('@OiThompson on twitter', {type: "PLAYING"});
 });
 
 client.on('message', msg => {
@@ -65,8 +74,6 @@ client.on('message', msg => {
         case 'role':{
             let title = args[0];
             let role = args[1];
-            roleChannel.push(msg.channel.id);
-            roleId.push(args[1].substring(3).slice(0, -1));
             let embed = new Discord.MessageEmbed()
                 .setTitle(title)
                 .setDescription(`React for ${role} role`)
@@ -74,7 +81,9 @@ client.on('message', msg => {
 
             msg.channel.send(embed).then(function(msg){
                 msg.react('👍');
-                msgId.push(msg.id);
+                postgresClient.query(`INSERT INTO roles("roleChannel", "roleId", "msgId") VALUES ('${msg.channel.id}','${args[1].substring(3).slice(0, -1)}','${msg.id}')`,)
+                    .then((results) => row = results.rows)
+                    .catch(error => console.error(error));
             }).catch(function(error){
                 console.error(error);
             });
@@ -86,6 +95,7 @@ client.on('message', msg => {
 });
 
 client.on('messageReactionAdd', async (reaction, user) => {
+
     if (user.bot) return;
     if (!reaction.message.guild) return;
 
@@ -105,16 +115,28 @@ client.on('messageReactionAdd', async (reaction, user) => {
         }
     }
 
-    for(let i = 0; i < roleChannel.length; i++){
-        if (reaction.message.channel.id === roleChannel[i] && reaction.message.id == msgId[i]){
-            if(reaction.emoji.name === '👍'){
-                await reaction.message.guild.members.cache.get(user.id).roles.add(roleId[i]);
+    let channelId = reaction.message.channel.id;
+    let messageId = reaction.message.id;
+    let emoji = reaction.emoji.name;
+
+    postgresClient.query(`SELECT * FROM roles WHERE "roleChannel" = '${reaction.message.channel.id}'`,)
+        .then(async (results) => {
+            row = results.rows;
+        
+            for(i in row){
+                if(channelId === row[i]["roleChannel"] && messageId === row[i]["msgId"]){
+                    if(emoji === '👍'){
+                        console.log(row[i]["msgId"])
+                        await reaction.message.guild.members.cache.get(user.id).roles.add(row[i]["roleId"]);
+                    }
+                }
             }
-        }
-    }
+        })
+        .catch(error => console.error(error));
 })
 
 client.on('messageReactionRemove', async (reaction, user) => {
+
     if (user.bot) return;
     if (!reaction.message.guild) return;
 
@@ -134,13 +156,24 @@ client.on('messageReactionRemove', async (reaction, user) => {
         }
     }
 
-    for(let i = 0; i < roleChannel.length; i++){
-        if (reaction.message.channel.id === roleChannel[i] && reaction.message.id == msgId[i]){
-            if(reaction.emoji.name === '👍'){
-                await reaction.message.guild.members.cache.get(user.id).roles.remove(roleId[i]);
+    let channelId = reaction.message.channel.id;
+    let messageId = reaction.message.id;
+    let emoji = reaction.emoji.name;
+
+    postgresClient.query(`SELECT * FROM roles WHERE "roleChannel" = '${reaction.message.channel.id}'`,)
+        .then(async (results) => {
+            row = results.rows;
+        
+            for(i in row){
+                if(channelId === row[i]["roleChannel"] && messageId === row[i]["msgId"]){
+                    if(emoji === '👍'){
+                        console.log(row[i]["msgId"])
+                        await reaction.message.guild.members.cache.get(user.id).roles.remove(row[i]["roleId"]);
+                    }
+                }
             }
-        }
-    }
+        })
+        .catch(error => console.error(error));
 })
 
 // we need to change this to an environment variable.
