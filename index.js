@@ -10,6 +10,7 @@ const prefix = process.env.PREFIX //drag!
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
+    client.user.setActivity('https://twitter.com/OiThompson', {type: "PLAYING"});
 });
 
 client.on('message', msg => {
