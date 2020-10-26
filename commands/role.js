@@ -5,7 +5,7 @@ let output = function(title, role, msg, postgresClient){
     let embed = new Discord.MessageEmbed()
         .setTitle(title)
         .setDescription(`React for ${role} role`)
-        .setColor('GREEN')
+        .setColor('#29c566')
 
     msg.channel.send(embed).then(function(msg){
         msg.react('👍');
