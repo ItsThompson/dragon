@@ -41,7 +41,7 @@ let output = function(msg, Discord, client, postgresClient){
                                         try {
                                             msg.guild.roles.cache.get(verifiedRole).name;
                                         } catch (error) {
-                                            if(streamVoice != 'n/a'){
+                                            if(verifiedRole != 'n/a'){
                                                 msg.reply('Stream voice channel id is invalid');
                                                 return;
                                             }                
@@ -66,7 +66,7 @@ let output = function(msg, Discord, client, postgresClient){
                                                         try {
                                                             client.channels.cache.get(registerOutputChannel).name;
                                                         } catch (error) {
-                                                            if(streamVoice != 'n/a'){
+                                                            if(registerOutputChannel != 'n/a'){
                                                                 msg.reply('Stream voice channel id is invalid');
                                                                 return;
                                                             }                                
