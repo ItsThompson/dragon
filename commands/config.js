@@ -73,15 +73,39 @@ let output = function(msg, Discord, client, postgresClient){
                                                         }
     
                                                         console.log('output');
-    
+
+                                                        let fieldOne;
+                                                        let fieldTwo;
+                                                        let fieldThree;
+
+                                                        if (streamVoice != 'n/a'){
+                                                            fieldOne = client.channels.cache.get(streamVoice).name;
+                                                        } else{
+                                                            fieldOne = streamVoice;
+                                                        }
+                                                        
+                                                        if (verifiedRole != 'n/a'){
+                                                            fieldTwo = msg.guild.roles.cache.get(verifiedRole).name
+                                                        } else{
+                                                            fieldTwo = verifiedRole;
+                                                        }
+
+
+                                                        if (registerOutputChannel != 'n/a'){
+                                                            fieldThree = client.channels.cache.get(registerOutputChannel).name;
+                                                        } else{
+                                                            fieldThree = registerOutputChannel;
+                                                        }
+
                                                         let embed = new Discord.MessageEmbed()
                                                             .setTitle('Summary')
                                                             .setURL('https://www.youtube.com/watch?v=d1YBv2mWll0')
                                                             .setColor('#29c566')
                                                             .addFields(
-                                                                { name: 'Stream Voice Channel', value: client.channels.cache.get(streamVoice).name },
-                                                                { name: 'Verified Role', value: msg.guild.roles.cache.get(verifiedRole).name },
-                                                                { name: 'Register Output Channel', value: client.channels.cache.get(registerOutputChannel).name }
+                                                                // TODO Problem is here
+                                                                { name: 'Stream Voice Channel', value: fieldOne },
+                                                                { name: 'Verified Role', value: fieldTwo },
+                                                                { name: 'Register Output Channel', value: fieldThree }
                                                             )
                                                             .setTimestamp()
                                                             .setFooter('@OiThompson on twitter.')
