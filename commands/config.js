@@ -95,16 +95,16 @@ let output = function(msg, Discord, client, postgresClient){
                                                             .catch(error => console.error(error));
                                                     })
                                                     .catch((collected) => {
-                                                        msg.channel.send("Time expired")
+                                                        msg.channel.send("Something went wrong on 3/3");
                                                     })
                                             })
                                             
                                     }).catch((collected) => {
-                                        msg.channel.send("Time expired")
+                                        msg.channel.send("Something went wrong on 2/3");
                                     })
                             })
                     }).catch((collected) => {
-                        msg.channel.send("Time expired")
+                        msg.channel.send("Something went wrong on 1/3");
                     })
             })
     } else {
