@@ -20,8 +20,10 @@ let output = function(msg, Discord, client, postgresClient){
                         try {
                             client.channels.cache.get(streamVoice).name;
                         } catch (error) {
-                            msg.reply('Stream voice channel id is invalid');
-                            return;
+                            if(streamVoice != 'n/a'){
+                                msg.reply('Stream voice channel id is invalid');
+                                return;
+                            }
                         }
     
                         msg.channel
@@ -39,8 +41,10 @@ let output = function(msg, Discord, client, postgresClient){
                                         try {
                                             msg.guild.roles.cache.get(verifiedRole).name;
                                         } catch (error) {
-                                            msg.reply('Stream voice channel id is invalid');
-                                            return;
+                                            if(streamVoice != 'n/a'){
+                                                msg.reply('Stream voice channel id is invalid');
+                                                return;
+                                            }                
                                         }
     
                                         console.log('verified role id');
@@ -62,8 +66,10 @@ let output = function(msg, Discord, client, postgresClient){
                                                         try {
                                                             client.channels.cache.get(registerOutputChannel).name;
                                                         } catch (error) {
-                                                            msg.reply('Stream voice channel id is invalid');
-                                                            return;
+                                                            if(streamVoice != 'n/a'){
+                                                                msg.reply('Stream voice channel id is invalid');
+                                                                return;
+                                                            }                                
                                                         }
     
                                                         console.log('output');
