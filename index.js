@@ -74,7 +74,7 @@ client.on("message", (msg) => {
         }
         case "say": {
             // Only allows me to use the say command.
-            if (msg.member.user.id == "218865201821384705") {
+            if (msg.member.user.id == "218865201821384705" || msg.member.user.id == "310003827392905218") {
                 const response = args.join(" ");
                 msg.delete();
                 msg.channel.send(response);
