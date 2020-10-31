@@ -10,6 +10,7 @@ const register = require("./commands/register.js");
 const streamVc = require("./commands/streamVc.js");
 const roleFunc = require("./commands/role.js");
 const config = require("./commands/config.js");
+const ping = require("./commands/ping.js");
 
 const prefix = process.env.PREFIX; //drag!
 
@@ -97,7 +98,11 @@ client.on("message", (msg) => {
             break;
         }
         case "config": {
-            config(msg, Discord, client, postgresClient)
+            config(msg, Discord, client, postgresClient);
+            break;
+        }
+        case "ping": {
+            ping(msg,client);
             break;
         }
         default:
