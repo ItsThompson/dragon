@@ -61,10 +61,10 @@ client.on("message", (msg) => {
         //     inVoice(channel, msg, client);
         //     break;
         // }
-        // case "count": {
-        //     playerCount(msg);
-        //     break;
-        // }
+        case "count": {
+            playerCount(msg, Discord);
+            break;
+        }
         case "stream": {
             // let target = '703809525794471937'; //#🎥Streaming
             // let verified = '769141366205710367'; //Verified role

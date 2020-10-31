@@ -1,14 +1,32 @@
 const fetch = require("node-fetch");
-// p04ched.minehut.gg
-const minehutApi = 'https://api.minehut.com/server/5f029ecfa46afa0067aea75e'
+// 139.99.125.160:25590
+const api = 'https://api.mcsrvstat.us/2/139.99.125.160:25590'
 
 function getServerInfo(){
     return new Promise(resolve => {
-        fetch(minehutApi, {method: "Get"})
+        fetch(api, {method: "Get"})
             .then(res => res.json())
             .then((json) => {
-                let playerCount = json["server"]["playerCount"];
-                resolve(playerCount);
+                let playerCount = json["players"]["online"];
+                if(playerCount > 0){
+                    // returns an array
+                    let playerList = [];
+                    playerList = json["players"]["list"];
+                    console.log(Object.values(playerList)[0])
+                    // console.log(playerCount + playerList)
+                    let returnValue = {
+                        playerCount: playerCount,
+                        playerList: playerList,
+                    };
+                    resolve(returnValue);
+                }else{
+                    let returnValue = {
+                        playerCount: playerCount,
+                        playerList: [],
+                    };
+                    resolve(returnValue);
+                }
+                
             })
             .catch((err) => {
                 console.error(err);
@@ -16,9 +34,22 @@ function getServerInfo(){
     })
 }
 
-let playerCount = async function(msg) {
-    const result = await getServerInfo();
-    msg.reply(`There are currently ${result} people in the p04ched minecraft server.`);
+let output = async function(msg, Discord) {
+    const result = await getServerInfo()
+    
+    if(result.playerCount == 0){
+        msg.reply(`There are currently ${result.playerCount} people in the p04ched minecraft server. (Please note that the api updates every 5 minutes)`);
+    }else{
+        msg.reply(`There are currently ${result.playerCount} people in the p04ched minecraft server. (Please note that the api updates every 5 minutes)`);
+        let embed = new Discord.MessageEmbed()
+            .setTitle('Player List')
+            .setURL('https://www.youtube.com/watch?v=d1YBv2mWll0')
+            .setColor('#29c566')
+            .addFields(
+                {name:'Players', value: result.playerList}
+            )
+        msg.channel.send(embed)
+    }
 }
 
-module.exports = playerCount;
+module.exports = output;

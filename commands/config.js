@@ -102,7 +102,6 @@ let output = function(msg, Discord, client, postgresClient){
                                                             .setURL('https://www.youtube.com/watch?v=d1YBv2mWll0')
                                                             .setColor('#29c566')
                                                             .addFields(
-                                                                // TODO Problem is here
                                                                 { name: 'Stream Voice Channel', value: fieldOne },
                                                                 { name: 'Verified Role', value: fieldTwo },
                                                                 { name: 'Register Output Channel', value: fieldThree }
