@@ -7,10 +7,9 @@ function getServerInfo(){
         fetch(api, {method: "Get"})
             .then(res => res.json())
             .then((json) => {
-                try {
-                    json["motd"]
-                } catch (error) {
-                    resolve('error')
+                if (json["motd"] == undefined){
+                    resolve('error');
+                    return;
                 }
                 let playerCount = json["players"]["online"];
                 if(playerCount > 0){
@@ -24,12 +23,14 @@ function getServerInfo(){
                         playerList: playerList,
                     };
                     resolve(returnValue);
+                    return;
                 }else{
                     let returnValue = {
                         playerCount: playerCount,
                         playerList: [],
                     };
                     resolve(returnValue);
+                    return;
                 }
                 
             })
