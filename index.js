@@ -46,7 +46,7 @@ client.on("message", (msg) => {
 
     // msg.guild.id
 
-    console.log(msg.content);
+    console.log("Server Name: " + msg.guild.name + "\nChannel Name: " + msg.channel.name + "\nMessage Content: " + msg.content + "\n");
 
     // TODO: Create database status command
     // TODO: Create ping server command

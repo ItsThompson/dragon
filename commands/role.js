@@ -3,7 +3,15 @@ const Discord = require('discord.js');
 
 let output = function(title, role, msg, postgresClient, prefix){
     if(role == undefined || title == undefined){
-        msg.reply('Usage: ' + prefix + ' role <title> <role>')
+        msg.reply('Usage: ' + prefix + ' role <title> <@role>');
+        return;
+    } else{
+        try {
+            msg.guild.roles.cache.get(role.substring(3).slice(0, -1)).name
+        } catch (error) {
+            msg.reply('role is invalid');
+            return;
+        }
     }
 
     let embed = new Discord.MessageEmbed()
