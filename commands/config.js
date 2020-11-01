@@ -99,18 +99,21 @@ let output = function(msg, Discord, client, postgresClient){
                                                                         fieldOne = client.channels.cache.get(streamVoice).name;
                                                                     } else{
                                                                         fieldOne = streamVoice;
+                                                                        streamVoice = NULL;
                                                                     }
                                                                     
                                                                     if (verifiedRole != 'n/a'){
                                                                         fieldTwo = msg.guild.roles.cache.get(verifiedRole).name
                                                                     } else{
                                                                         fieldTwo = verifiedRole;
+                                                                        streamVoice = NULL;
                                                                     }
 
                                                                     if (registerOutputChannel != 'n/a'){
                                                                         fieldThree = client.channels.cache.get(registerOutputChannel).name;
                                                                     } else{
                                                                         fieldThree = registerOutputChannel;
+                                                                        streamVoice = NULL;
                                                                     }
                                                                     
                                                                     fieldFour = mcServer;
