@@ -21,10 +21,6 @@ An error occurred!\n
 
 const connectionString = process.env.DATABASE_URL;
 
-let streamVoice;
-let verifiedRole;
-let registerOutputChannel;
-
 let row;
 
 const postgresClient = new Client({
@@ -66,7 +62,10 @@ client.on("message", (msg) => {
         //     break;
         // }
         case "count": {
-            playerCount(msg, Discord);
+            postgresClient.query(`SELECT "mcServer" FROM configs WHERE "guildId" = '${msg.guild.id}'`,)
+                .then(async (results) => {
+                    playerCount(msg, Discord, results.rows[0]["mcServer"]); 
+                });
             break;
         }
         case "stream": {
@@ -86,14 +85,14 @@ client.on("message", (msg) => {
             }
             break;
         }
-        // case "register": {
-        //     let amongUsName = args[0];
-        //     let twitch = args[1];
-        //     let discord = msg.author.username;
-        //     // let channel = '768793935358722049'; // #clearing
-        //     register(postgresClient, amongUsName, twitch, discord, msg, client, msg.guild.id, prefix);
-        //     break;
-        // }
+        case "register": {
+            let amongUsName = args[0];
+            let twitch = args[1];
+            let discord = msg.author.username;
+            // let channel = '768793935358722049'; // #clearing
+            register(postgresClient, amongUsName, twitch, discord, msg, client, msg.guild.id, prefix);
+            break;
+        }
         case "role": {
             let title = args[0];
             let role = args[1];

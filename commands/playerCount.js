@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 // 139.99.125.160:25590
-const api = 'https://api.mcsrvstat.us/2/139.99.125.160:25590'
+let api = '';
 
 function getServerInfo(){
     return new Promise(resolve => {
@@ -34,7 +34,8 @@ function getServerInfo(){
     })
 }
 
-let output = async function(msg, Discord) {
+let output = async function(msg, Discord, mcServer) {
+    api = `https://api.mcsrvstat.us/2/${mcServer}`
     const result = await getServerInfo()
     
     if(result.playerCount == 0){
