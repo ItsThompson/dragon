@@ -50,17 +50,6 @@ client.on("message", (msg) => {
     // TODO: Create database status command
     // TODO: Create ping server command
     switch (command) {
-        case "setStatus": {
-            let message = args.join(" ");;
-            if (msg.member.user.id == "218865201821384705") {
-                client.user.setActivity(message, { type: "PLAYING" });
-                msg.react('👍');
-            }
-            else {
-                msg.react('🤡');
-            }
-            break;
-        }
         case "test": {
             msg.channel.send(
                 "_ _ \n_ _ \n_ _ \n@OiThompson on twitter\n_ _ \n_ _ \n_ _"
