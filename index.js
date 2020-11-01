@@ -64,6 +64,12 @@ client.on("message", (msg) => {
         case "count": {
             postgresClient.query(`SELECT "mcServer" FROM configs WHERE "guildId" = '${msg.guild.id}'`,)
                 .then(async (results) => {
+                    try {
+                        results.rows[0]["mcServer"]
+                    } catch (error) {
+                        msg.reply('Please use configure your discord server before you use this command. (drag! config)')
+                        return;
+                    }
                     playerCount(msg, Discord, results.rows[0]["mcServer"]); 
                 });
             break;
