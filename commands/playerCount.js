@@ -10,8 +10,7 @@ function getServerInfo(){
                 try {
                     json["motd"]
                 } catch (error) {
-                    msg.reply('Please use configure your discord server before you use this command. (drag! config)')
-                    return;
+                    resolve('error')
                 }
                 let playerCount = json["players"]["online"];
                 if(playerCount > 0){
@@ -43,19 +42,23 @@ function getServerInfo(){
 let output = async function(msg, Discord, mcServer) {
     api = `https://api.mcsrvstat.us/2/${mcServer}`
     const result = await getServerInfo()
-    
-    if(result.playerCount == 0){
-        msg.reply(`There are currently ${result.playerCount} people in the p04ched minecraft server. (Please note that the api updates every 5 minutes)`);
-    }else{
-        msg.reply(`There are currently ${result.playerCount} people in the p04ched minecraft server. (Please note that the api updates every 5 minutes)`);
-        let embed = new Discord.MessageEmbed()
-            .setTitle('Player List')
-            .setURL('https://www.youtube.com/watch?v=d1YBv2mWll0')
-            .setColor('#29c566')
-            .addFields(
-                {name:'Players', value: result.playerList}
-            )
-        msg.channel.send(embed)
+
+    if(result != 'error'){
+        if(result.playerCount == 0){
+            msg.reply(`There are currently ${result.playerCount} people in the p04ched minecraft server. (Please note that the api updates every 5 minutes)`);
+        }else{
+            msg.reply(`There are currently ${result.playerCount} people in the p04ched minecraft server. (Please note that the api updates every 5 minutes)`);
+            let embed = new Discord.MessageEmbed()
+                .setTitle('Player List')
+                .setURL('https://www.youtube.com/watch?v=d1YBv2mWll0')
+                .setColor('#29c566')
+                .addFields(
+                    {name:'Players', value: result.playerList}
+                )
+            msg.channel.send(embed)
+        }
+    } else{
+        msg.reply('Please use configure your discord server before you use this command. (drag! config)')
     }
 }
 
