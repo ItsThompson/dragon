@@ -7,6 +7,12 @@ function getServerInfo(){
         fetch(api, {method: "Get"})
             .then(res => res.json())
             .then((json) => {
+                try {
+                    json["motd"]
+                } catch (error) {
+                    msg.reply('Please use configure your discord server before you use this command. (drag! config)')
+                    return;
+                }
                 let playerCount = json["players"]["online"];
                 if(playerCount > 0){
                     // returns an array
