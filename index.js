@@ -83,18 +83,18 @@ client.on("message", (msg) => {
             }
             break;
         }
-        case "register": {
-            let amongUsName = args[0];
-            let twitch = args[1];
-            let discord = msg.author.username;
-            // let channel = '768793935358722049'; // #clearing
-            register(postgresClient, amongUsName, twitch, discord, msg, client, msg.guild.id, prefix);
-            break;
-        }
+        // case "register": {
+        //     let amongUsName = args[0];
+        //     let twitch = args[1];
+        //     let discord = msg.author.username;
+        //     // let channel = '768793935358722049'; // #clearing
+        //     register(postgresClient, amongUsName, twitch, discord, msg, client, msg.guild.id, prefix);
+        //     break;
+        // }
         case "role": {
             let title = args[0];
             let role = args[1];
-            roleFunc(title, role, msg, postgresClient);
+            roleFunc(title, role, msg, postgresClient, prefix);
             break;
         }
         case "config": {

@@ -1,7 +1,11 @@
 const Discord = require('discord.js');
 
 
-let output = function(title, role, msg, postgresClient){
+let output = function(title, role, msg, postgresClient, prefix){
+    if(role == undefined || title == undefined){
+        msg.reply('Usage: ' + prefix + ' role <title> <role>')
+    }
+
     let embed = new Discord.MessageEmbed()
         .setTitle(title)
         .setDescription(`React for ${role} role`)
