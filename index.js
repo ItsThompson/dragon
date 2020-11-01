@@ -48,7 +48,7 @@ client.on("message", (msg) => {
 
     console.log("Server Name: " + msg.guild.name + 
         "\nChannel Name: " + msg.channel.name + 
-        "\nMessage Author: " + msg.author.username + "#" + msg.author.tag + 
+        "\nMessage Author: " + msg.author.tag + 
         "\nMessage Content: " + msg.content + "\n");
 
     // TODO: Create database status command
