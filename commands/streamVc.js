@@ -2,6 +2,11 @@ let output = function(msg, postgresClient, guildId, databaseError){
 
     postgresClient.query(`SELECT "streamVc", "verifiedRole" FROM configs WHERE "guildId" = '${guildId}'`,)
         .then(async (results) => {
+            if(results.rows[0]["streamVc"] == 0 || results.rows[0]["verifiedRole"] == 0){
+                msg.reply('Please use configure your discord server before you use this command. (drag! config)');
+                return;
+            }
+
             let target = results.rows[0]["streamVc"]
             let verified = results.rows[0]["verifiedRole"]
 

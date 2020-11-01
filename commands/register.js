@@ -5,6 +5,10 @@ let output = function(postgresClient, amongUsName, twitch, discord, msg, client,
                 msg.reply('Usage: ' + prefix + ' register <amongUsName> <twitch>')
             }
             else{
+                if(results.rows[0]["registerOutputChannel"] == 0){
+                    msg.reply('Please use configure your discord server before you use this command. (drag! config)');
+                    return;
+                }
                 client.channels.cache.get(results.rows[0]["registerOutputChannel"]).send(`AmongUs: ${amongUsName}\nTwitch: ${twitch}\nDiscord: ${discord}`);
             }
         })
