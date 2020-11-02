@@ -4,7 +4,6 @@ const client = new Discord.Client({
     partials: ["MESSAGE", "CHANNEL", "REACTION"],
 });
 const playerCount = require("./commands/playerCount.js");
-// We dont need this.
 // const inVoice = require('./commands/inVoice.js');
 const register = require("./commands/register.js");
 const streamVc = require("./commands/streamVc.js");
@@ -40,15 +39,11 @@ client.on("message", (msg) => {
     const command = args.shift().toLowerCase();
     if (msg.author.bot) return;
 
-    // msg.guild.id
-
     console.log("Server Name: " + msg.guild.name + 
         "\nChannel Name: " + msg.channel.name + 
         "\nMessage Author: " + msg.author.tag + 
         "\nMessage Content: " + msg.content + "\n");
 
-    // TODO: Create database status command
-    // TODO: Create ping server command
     switch (command) {
         case "test": {
             msg.channel.send(
@@ -57,7 +52,7 @@ client.on("message", (msg) => {
             break;
         }
         // case 'voice':{
-        //     let channel = '703809525794471937'; //#🎥Streaming
+        //     let channel = 'channelId'; //#🎥Streaming
         //     inVoice(channel, msg, client);
         //     break;
         // }
@@ -75,8 +70,6 @@ client.on("message", (msg) => {
             break;
         }
         case "stream": {
-            // let target = '703809525794471937'; //#🎥Streaming
-            // let verified = '769141366205710367'; //Verified role
             streamVc(msg, postgresClient, msg.guild.id, databaseError);
             break;
         }
@@ -95,7 +88,6 @@ client.on("message", (msg) => {
             let amongUsName = args[0];
             let twitch = args[1];
             let discord = msg.author.username;
-            // let channel = '768793935358722049'; // #clearing
             register(postgresClient, amongUsName, twitch, discord, msg, client, msg.guild.id, prefix);
             break;
         }
@@ -155,7 +147,6 @@ client.on("messageReactionAdd", async (reaction, user) => {
                     messageId === row[i]["msgId"]
                 ) {
                     if (emoji === "👍") {
-                        // console.log(row[i]["msgId"])
                         await reaction.message.guild.members.cache
                             .get(user.id)
                             .roles.add(row[i]["roleId"]);
@@ -214,5 +205,4 @@ client.on("messageReactionRemove", async (reaction, user) => {
         .catch((error) => console.error(error));
 });
 
-// we need to change this to an environment variable.
 client.login(process.env.BOT_TOKEN);
