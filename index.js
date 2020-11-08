@@ -43,6 +43,10 @@ client.on("message", (msg) => {
         "\nChannel Name: " + msg.channel.name + 
         "\nMessage Author: " + msg.author.tag + 
         "\nMessage Content: " + msg.content + "\n");
+    
+    if (msg.content === 'who asked'){
+        msg.channel.send('I did');
+    }
 
     switch (command) {
         case "test": {
